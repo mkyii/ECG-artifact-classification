@@ -1,0 +1,41 @@
+# Ignore Python Bytecode
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore virtual environment folders
+venv/
+env/
+.venv/
+.maison/
+
+# Ignore MLflow tracking directory
+mlruns/
+
+# Ignore logs and temporary files
+*.log
+*.tmp
+*.temp
+*.swp
+
+# Ignore system files (e.g., macOS, Windows, etc.)
+.DS_Store
+Thumbs.db
+
+# Ignore PyTorch Lightning checkpoint files
+*.ckpt
+
+# Ignore Python egg and build files
+*.egg-info/
+build/
+dist/
+
+# Ignore compiled C extensions
+*.so
+
+# Ignore the environment file for conda or pip
+.env
