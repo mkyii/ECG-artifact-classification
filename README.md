@@ -36,8 +36,7 @@
 ### **3.1 환경 설정**
 
 #### **필수 라이브러리 설치**
-```bash
-pip install -r requirements.txt
+
 
 
 ## ⚙️ **3.2 데이터 전처리**
@@ -46,15 +45,11 @@ pip install -r requirements.txt
 - **신호 정규화:** Min-Max Scaling 적용  
 - **데이터 분할:** Train / Validation / Test (8:1:1)  
 
-```bash
-python src/preprocessing.py
 
 ## ⚙️ **3.3 모델 학습**
 
 모델은 **CNN1D_Modified** 구조를 사용하며, 최적화 알고리즘으로 **Adam**을 사용합니다.
 
-```bash
-python main.py
 
 
 ## 🛠️ **4. 프로젝트 구**
