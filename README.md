@@ -1,140 +1,72 @@
-# 🚀 Signal Classification with PyTorch Lightning
+# 🫀 **ECG Artifact Detection AI Model**
 
-Welcome to the **Signal Classification** project! This repository showcases powerful signal processing models built with **PyTorch Lightning**. Dive into the world of 1D Convolutional Neural Networks, Residual Networks, and Attention-Enhanced CNNs to tackle complex time-series data challenges.
+## 🚀 **1. 프로젝트 개요**
 
----
+**목적:**  
+12-Lead ECG 데이터를 분석하여 **아티팩트(Artifact)**를 검출하고, **클린 신호(0)**와 **아티팩트 포함 신호(1)**를 분류하는 인공지능 모델을 개발합니다.  
 
-## 📚 Table of Contents
-- [✨ Overview](#-overview)
-- [🛠️ Features](#-features)
-- [🏗️ Architecture](#-architecture)
-- [💻 Installation](#-installation)
-- [🚀 Usage](#-usage)
-- [📊 Model Training](#-model-training)
-- [🧪 Evaluation](#-evaluation)
-- [⚙️ Configuration](#-configuration)
-- [🎓 K-MEDICON 2024 Participation](#-k-medicon-2024-participation)
-- [📜 License](#-license)
+**핵심 목표:**  
+- ECG 신호 내 아티팩트 검출  
+- 신호 분류 정확도 최적화  
+- 진단 오류 최소화  
 
 ---
 
-## ✨ Overview
-This project brings together cutting-edge AI techniques to classify signal data efficiently. From **deep CNNs** to **Residual Networks with attention mechanisms**, each model is optimized for high performance and adaptability.
+## 📊 **2. 데이터 설명**
 
----
+- **출처:** 고려대학교 안암병원 (K-MEDiCon)  
+- **포맷:** `.pkl` 형식  
+- **샘플링 주파수:** 500Hz  
+- **신호 형태:** `[5000,12]` (시간 포인트 5000 × 12 리드)  
 
-## 🛠️ Features
-- ✅ **SignalDataModule:** Simplifies dataset preparation and DataLoader management.
-- ✅ **CNN1D:** Classic convolutional model for time-series signals.
-- ✅ **ResNet1D:** Advanced ResNet architecture for deep feature extraction.
-- ✅ **CNN1D_Modified:** Attention-powered CNN for improved global feature learning.
-- ✅ **Stratified Data Splitting:** Ensures balanced train/validation/test datasets.
+**📌 라벨링:**  
+- `0`: 클린 ECG 신호  
+- `1`: 아티팩트 포함 ECG 신호  
+- **조건:** 12개의 리드 중 하나라도 아티팩트가 감지되면 `1`로 라벨링  
 
----
+**📌 데이터셋 구성:**  
+| **Data Set** | **정상 심전도 (0)** | **Artifact 포함 (1)** |  
+|--------------|-------------------|-----------------------|  
+| Training set | 1,799             | 601                   |  
+| Public test  | 225               | 75                    |  
+| Private test | 225               | 75                    |
 
-## 🏗️ Architecture
-### 📊 **CNN1D:**
-- 🔹 Two convolutional layers with pooling.
-- 🔹 Dense fully connected layers for classification.
+## ⚙️ **3. 프로젝트 설정**
 
-### 🧠 **ResNet1D:**
-- 🔹 Residual blocks for in-depth feature extraction.
-- 🔹 Adaptive average pooling.
+### **3.1 환경 설정**
 
-### 🌟 **CNN1D_Modified:**
-- 🔹 Multi-layered convolution and pooling.
-- 🔹 Attention mechanism for refined global feature learning.
-- 🔹 Fully connected output layers.
-
----
-
-## 💻 Installation
-Get started in a snap! 🚀
+#### **필수 라이브러리 설치**
 ```bash
-$ git clone https://github.com/your-username/signal-classification.git
-$ cd signal-classification
-$ pip install -r requirements.txt
-```
+pip install -r requirements.txt
 
----
 
-## 🚀 Usage
-### 📊 Data Preparation
-Ensure your dataset follows this structure:
-- `signal_train`: Numpy array `(samples, sequence_length, channels)`.
-- `target_train`: Corresponding labels.
+## ⚙️ **3.2 데이터 전처리**
 
-### 🏋️ Model Training Example
-```python
-from SignalDataModule import SignalDataModule
-from CNN1D import CNN1D
+- **노이즈 제거:** 저역통과 필터링  
+- **신호 정규화:** Min-Max Scaling 적용  
+- **데이터 분할:** Train / Validation / Test (8:1:1)  
 
-# Initialize DataModule
-signal_data = SignalDataModule(signal_train, target_train)
-
-# Initialize Model
-model = CNN1D()
-
-# Train the model
-from pytorch_lightning import Trainer
-trainer = Trainer(max_epochs=50)
-trainer.fit(model, signal_data)
-```
-
----
-
-## 📊 Model Training
-Start training your model with ease:
 ```bash
-$ python train.py --model CNN1D --epochs 50
-```
+python src/preprocessing.py
 
----
+## ⚙️ **3.3 모델 학습**
 
-## 🧪 Evaluation
-Evaluate the performance of your trained model:
+모델은 **CNN1D_Modified** 구조를 사용하며, 최적화 알고리즘으로 **Adam**을 사용합니다.
+
 ```bash
-$ python evaluate.py --model CNN1D --checkpoint path/to/checkpoint.ckpt
-```
+python main.py
 
----
 
-## ⚙️ Configuration
-Fine-tune hyperparameters in `config.yaml`:
-```yaml
-batch_size: 32
-learning_rate: 0.001
-max_epochs: 50
-```
-
----
-
-## 🎓 K-MEDICON 2024 Participation
-We are proud to announce our participation in **K-MEDICON 2024**, hosted by **Korea University Medical Big Data Research Institute**.
-
-### 📅 **Event Details:**
-- **Registration:** August 13, 2024 – August 19, 2024
-- **Final Participant Selection:** August 22, 2024
-- **Data Release & Competition:** August 28, 2024 – October 23, 2024
-- **Results Announcement & Awards:** November 2024
-
-### 🧠 **Competition Topics:**
-1️⃣ **ECG Signal Classification:** Artifact-included 12-lead ECG signal classification.
-2️⃣ **Pathology Image Analysis:** Giga-pixel whole slide image analysis in bladder tumors.
-
-This event brings together the brightest minds in digital healthcare, AI, and medical data research. Join us in pushing the boundaries of AI-driven healthcare solutions!
-
----
-
-## 📜 License
-This project is licensed under the **MIT License**.
-
----
-
-### 🤝 Contributing
-Found a bug or have a feature request? Open an issue or submit a pull request!
-
-**Author:** [Your Name]  
-**Email:** [Your Email]
-
-🌟 *Star this repository if you found it useful!* 🚀
+## 🛠️ **4. 프로젝트 구**
+├── data/
+│   ├── raw/       # 원본 ECG 데이터
+│   ├── processed/ # 전처리된 ECG 데이터
+├── src/
+│   ├── preprocessing.py # 데이터 전처리
+│   ├── data_module.py   # 데이터 로드 및 분할
+│   ├── model.py         # 모델 정의 (CNN1D_Modified)
+│   ├── cpi_metric.py    # CPI 성능 메트릭
+├── results/             # 분석 결과
+├── README.md            # 프로젝트 설명
+├── requirements.txt     # 의존성 목록
+└── main.py              # 메인 실행 스크립트
