@@ -37,7 +37,9 @@
 
 #### **필수 라이브러리 설치**
 
-
+```
+pip install -r requirements.txt
+```
 
 ## ⚙️ **3.2 데이터 전처리**
 
@@ -67,3 +69,4 @@
 ├── README.md            # 프로젝트 설명
 ├── requirements.txt     # 의존성 목록
 └── main.py              # 메인 실행 스크립트
+```
